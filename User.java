@@ -18,11 +18,12 @@ public class User {
         this.firstName = capitalize(arr[1]);
         this.middleName = capitalize(arr[2]);
 
-        if (this.middleName.substring(this.middleName.length() - 3).equals("вич")) {
+        String subMiddleName = this.middleName.substring(this.middleName.length() - 2);
+        if (subMiddleName.equals("ич") || subMiddleName.equals("лы")) {
             this.gender = "Мужчина";
-        } else if (this.middleName.substring(this.middleName.length() - 3).equals("вна") ||
-                this.secondName.charAt(-1) == 'а' ||
-                this.secondName.charAt(-1) == 'я') {
+        } else if (subMiddleName.equals("на") || subMiddleName.equals("зы") || subMiddleName.equals("ва") ||
+                this.secondName.charAt(this.secondName.length() - 1) == 'а' ||
+                this.secondName.charAt(this.secondName.length() - 1) == 'я') {
             this.gender = "Женщина";
         }
         isAuth = true;
@@ -43,8 +44,16 @@ public class User {
         return secondName + " " + firstName.charAt(0) + "." + middleName.charAt(0) + ".";
     }
 
+    public String getSupportAge(int age) {
+        if (age % 10 == 1)
+            return "год";
+        else if (age % 10 >= 5 && age % 10 < 9 || age % 10 == 0 || age % 100 >= 5 && age % 100 < 21)
+            return "лет";
+        return "года";
+    }
+
     public String getInfoUser() {
-        return getUserName() + "\n" +  getGender() + "\n" + getAge() + " полных лет";
+        return getUserName() + "\n" +  getGender() + "\n" + getAge() + " " + getSupportAge(getAge());
     }
 
     private void setAge(int age) {
